@@ -40,5 +40,5 @@ See this [excellent article][setup] on integrating Eclipse and Arduino stuff.
 
 [setup]: http://horrorcoding.altervista.org/arduino-development-with-eclipse-a-step-by-step-tutorial-to-the-basic-setup/
 
-This repository is for software components. [Repository wiki](wiki/) contains
+This repository is for software components. Repository wiki contains
 details of hardware and other parts of the project.

@@ -19,20 +19,30 @@ than what is listed probabably work, too.
     4. avrdude 5.11.1
     5. GNU make 3.82
 
-2. Fire up Eclipse and configure AVR Eclipse plugin.
+2. Fire up Eclipse and configure AVR Eclipse plugin (in *Window* → 
+   *Preferences* → *AVR*).
 
-    1. Point to correct paths of listed tools in *Window* → *Preferences* → 
-       *AVR* → *Paths*.
-    2. Set `avrdude.conf` in *Window* → *Preferences* → *AVR* → *AVRDude*. I got
-       mine from Arduino SDK 1.0.5.
+    1. Point to correct paths of listed tools in *Paths*.
+    2. Set `avrdude.conf` in *AVRDude*. I got mine from Arduino SDK 1.0.5.
+    3. In *AVRDude*, create a programmer configuration with:
+    
+        1. **Configuration name**: Arduino
+        2. **Description**: Arduino
+        3. **Programmer Hardware**: Arduino
+        4. **Override default baudrate**: 57600
+        5. **Override default port**: where ever you Arduino shows up at 
        
 3. Import this repository to Eclipse as a project.
+
+4. From project's context menu, go to *Properties* → *AVR* → *AVRDude* and
+   select the new programmer configuration. *Note: Using wrong config can
+   overwrite Arduino bootloader, so be careful!*
 
 4. Build project: *Build project* in project's context menu.
 
 5. Upload to Arduino: *AVR* → *Upload project to Target Device*.
 
-TODO: *Do we have to set up AVR __Programmer Configuration__ for the project?* 
+That should upload code to Arduino. 
 
 ## More info
 

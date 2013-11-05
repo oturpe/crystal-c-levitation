@@ -1,31 +1,40 @@
+#include "CrystalCLevitation.h"
 #include "Arduino.h"
+#include "new.h"
+#include "RingDriver.h"
 
-int ledPin =  13;    // LED connected to digital pin 13
+int level = 0;
+#define LEVEL_MAX 10
+
+#define RING_PIN 3
+RingDriver ringDriver(RING_PIN);
 
 // The setup() method runs once, when the sketch starts
-void setup()   {
-  // initialize the digital pin as an output:
-  pinMode(ledPin, OUTPUT);
+void setup() {
+   #ifdef __DEBUG
+       Serial.begin(9600);
+       Serial.println("At setup.");
+   #endif
+
+   ringDriver.init();
 }
 
-// the loop() method runs over and over again,
-// as long as the Arduino has power
+// the loop() method runs over and over again, as long as the Arduino has power.
+void loop() {
+    delay(250);
 
-void loop()
-{
-  digitalWrite(ledPin, HIGH);   // set the LED on
-  delay(1000);                  // wait for a second
-  digitalWrite(ledPin, LOW);    // set the LED off
-  delay(1000);                  // wait for a second
+    if (level < LEVEL_MAX) {
+        ringDriver.drive(level);
+        level += 1;
+    }
 }
-
 
 int main(void) {
 
-  init();
-  setup();
+    init();
+    setup();
 
-  while(true) {
-    loop();
-  }
+    while (true) {
+        loop();
+    }
 }

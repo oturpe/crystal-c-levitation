@@ -44,6 +44,24 @@ than what is listed probabably work, too.
 
 That should upload code to Arduino. 
 
+## Debugging
+
+Debugging tools are rudementary but they exist.
+
+1. To enable or disable debugging, modify file `CrystalCLevitation.h` to define
+or not define `__DEBUG` flag.
+2. In debug mode, serial communication is enabled. To issue message to debug
+channel, use something like this:
+
+    ```C++
+    #ifdef __DEBUG
+        Serial.println("This is a debug message");
+    #endif
+    ``` 
+
+3. To read message, use `cat < /dev/ttyUSB0` or similar method. Arduino IDE's
+serial monitor works, too.
+
 ## More info
 
 See this [excellent article][setup] on integrating Eclipse and Arduino stuff.

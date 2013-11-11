@@ -20,23 +20,25 @@ public:
     /**
      * Initializes a new ring driver.
      *
-     * @param ringPin output pin for PWM.
+     * @param ringSize the amount of ring magnets
+     * @param ringPins array of pin numbers for magnets
      */
-    RingDriver(int ringPin);
+    RingDriver(int ringSize, int ringPins[]);
 
     /**
-     * Initializes the driver for use. Output pin is prepared for PWM use and
+     * Initializes the driver for use. Output pins are prepared for PWM use and
      * set to zero duty cycle. This method must be the first one called.
      */
     void init();
 
     /**
-     * Drives ring with specified duty cycle. Duty cycle is given as 8-bit
-     * value where 0 is 0 % and 255 is 100 %.
+     * Drives ring with specified duty cycles. Duty cycles is given as array of
+     * 8-bit values, one value for each ring pin. Value of 0 is 0 % and 255 is
+     * 100 %.
      *
-     * @param dutyCycle duty cycle
+     * @param dutyCycles duty cycle
      */
-    void drive(int dutyCycle);
+    void drive(int dutyCycles[]);
 
 private:
     /**
@@ -44,8 +46,11 @@ private:
      */
     RingDriver();
 
-    /** Output pin for PWM */
-    int ringPin;
+    /** Amount of output pints */
+    int ringSize;
+
+    /** Array of output pins for PWM */
+    int * ringPins;
 };
 
 #endif /* RINGDRIVER_H_ */

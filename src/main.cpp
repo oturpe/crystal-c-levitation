@@ -11,6 +11,8 @@ int level = 0;
 
 #define RING_PIN 3
 RingDriver ringDriver(RING_PIN);
+#define INC 1
+#define WAIT 100
 
 #define SENSOR_PIN 4
 PositionSensor positionSensor(SENSOR_PIN);
@@ -27,11 +29,11 @@ void setup() {
 
 // the loop() method runs over and over again, as long as the Arduino has power.
 void loop() {
-    delay(250);
+    delay(WAIT);
 
     if (level < LEVEL_MAX) {
         ringDriver.drive(level);
-        level += 1;
+        level += INC;
     }
 
     int position = positionSensor.read();

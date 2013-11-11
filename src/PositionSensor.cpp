@@ -5,9 +5,14 @@
  *      Author: Otto Urpelainen
  */
 
-#include "CrystalCLevitation.h"
-#include "PositionSensor.h"
+// Precompiled library dependencies
 #include "Arduino.h"
+
+// Project configuration
+#include "CrystalCLevitation.h"
+
+// In-project dependencies
+#include "PositionSensor.h"
 
 PositionSensor::PositionSensor(int sensorPin) : sensorPin(sensorPin) {
 }

@@ -1,18 +1,25 @@
+// Precompiled library dependencies
 #include "Arduino.h"
 #include "new.h"
 
+// Source library dependencies
+#include "lib/ArduinoPwm.h"
+
+// Project configuration
 #include "CrystalCLevitation.h"
 
+// In-project dependencies
 #include "PositionSensor.h"
 #include "RingDriver.h"
 
+// Test code: ramp up magnet slowly
 int level = 0;
 #define LEVEL_MAX 10
-
-RingDriver ringDriver(RING_PIN);
-#define RING_PIN 11
-#define INC 1
 #define WAIT 100
+#define INC 1
+
+#define RING_PIN 11
+RingDriver ringDriver(RING_PIN);
 
 #define SENSOR_PIN 4
 PositionSensor positionSensor(SENSOR_PIN);

@@ -5,8 +5,10 @@
  *      Author: Otto Urpelainen
  */
 
-#include "CrystalCLevitation.h"
 #include "Arduino.h"
+
+#include "CrystalCLevitation.h"
+
 #include "RingDriver.h"
 
 RingDriver::RingDriver(int ringPin): ringPin(ringPin) {

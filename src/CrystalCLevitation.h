@@ -12,5 +12,4 @@
 
 #define __DEBUG
 
-
 #endif /* CRYSTALCLEVITATION_H_ */

@@ -3,6 +3,7 @@
 
 #include "CrystalCLevitation.h"
 
+#include "PositionSensor.h"
 #include "RingDriver.h"
 
 int level = 0;
@@ -10,6 +11,9 @@ int level = 0;
 
 #define RING_PIN 3
 RingDriver ringDriver(RING_PIN);
+
+#define SENSOR_PIN 4
+PositionSensor positionSensor(SENSOR_PIN);
 
 // The setup() method runs once, when the sketch starts
 void setup() {
@@ -29,6 +33,8 @@ void loop() {
         ringDriver.drive(level);
         level += 1;
     }
+
+    int position = positionSensor.read();
 }
 
 int main(void) {

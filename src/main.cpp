@@ -9,8 +9,8 @@
 int level = 0;
 #define LEVEL_MAX 10
 
-#define RING_PIN 3
 RingDriver ringDriver(RING_PIN);
+#define RING_PIN 11
 #define INC 1
 #define WAIT 100
 
@@ -24,6 +24,7 @@ void setup() {
        Serial.println("At setup.");
    #endif
 
+   setPwmFrequency(11,256);
    ringDriver.init();
 }
 

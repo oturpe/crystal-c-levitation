@@ -24,7 +24,7 @@ void setup() {
        Serial.begin(9600);
    #endif
 
-   setPwmFrequency(11,256);
+   setPwmFrequency(RING_PIN,PWM_SCALING);
 
    ringDriver.init();
 

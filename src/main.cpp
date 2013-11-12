@@ -28,23 +28,38 @@ PositionSensor positionSensor(SENSOR_PIN);
 void setup() {
    #ifdef __DEBUG
        Serial.begin(9600);
-       Serial.println("At setup.");
    #endif
 
    setPwmFrequency(11,256);
+
    ringDriver.init();
+
+   // Header line for CSV debug output
+   #ifdef __DEBUG
+       Serial.println("duty cycle;position;");
+   #endif
 }
 
 // the loop() method runs over and over again, as long as the Arduino has power.
 void loop() {
     delay(WAIT);
 
+    ringDriver.drive(level);
+    int position = positionSensor.read();
+
+    // Add line to CSV debug output
+    #ifdef __DEBUG
+        Serial.print(level);
+        Serial.print(";");
+        Serial.print(position);
+        Serial.print(";");
+
+        Serial.println("");
+    #endif
+
     if (level < LEVEL_MAX) {
-        ringDriver.drive(level);
         level += INC;
     }
-
-    int position = positionSensor.read();
 }
 
 int main(void) {

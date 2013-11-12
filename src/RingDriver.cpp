@@ -20,11 +20,6 @@ void RingDriver::init() {
 }
 
 void RingDriver::drive(int dutyCycle) {
-    #ifdef __DEBUG
-        Serial.print("Setting duty cycle to ");
-        Serial.println(dutyCycle);
-    #endif
-
     analogWrite(ringPin,dutyCycle);
 }
 

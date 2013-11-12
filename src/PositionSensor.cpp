@@ -20,10 +20,5 @@ PositionSensor::PositionSensor(int sensorPin) : sensorPin(sensorPin) {
 int PositionSensor::read() {
     int position = analogRead(sensorPin);
 
-    #ifdef __DEBUG
-        Serial.print("Position: ");
-        Serial.println(position);
-    #endif
-
     return position;
 }

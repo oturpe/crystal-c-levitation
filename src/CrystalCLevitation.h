@@ -19,6 +19,10 @@
 #define WAIT 500
 #define INC 5
 
+// Smoothing of position values
+#define POSITION_SAMPLES 3
+#define POSITION_SAMPLE_DELAY 10
+
 // Pins to use
 #define RING_PIN 6
 #define SENSOR_PIN 4

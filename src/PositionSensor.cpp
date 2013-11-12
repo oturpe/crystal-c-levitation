@@ -18,7 +18,11 @@ PositionSensor::PositionSensor(int sensorPin) : sensorPin(sensorPin) {
 }
 
 int PositionSensor::read() {
-    int position = analogRead(sensorPin);
+    int positionTotal = 0;
+    for(int i = 0; i < POSITION_SAMPLES; i++) {
+        positionTotal += analogRead(sensorPin);
+        delay(POSITION_SAMPLE_DELAY);
+    }
 
-    return position;
+    return positionTotal / POSITION_SAMPLES;
 }

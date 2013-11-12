@@ -12,16 +12,10 @@
 #include "PositionSensor.h"
 #include "RingDriver.h"
 
-// Test code: ramp up magnet slowly
-int level = 0;
-#define LEVEL_MAX 10
-#define WAIT 100
-#define INC 1
+int level = LEVEL_MIN;
 
-#define RING_PIN 11
 RingDriver ringDriver(RING_PIN);
 
-#define SENSOR_PIN 4
 PositionSensor positionSensor(SENSOR_PIN);
 
 // The setup() method runs once, when the sketch starts
@@ -57,6 +51,7 @@ void loop() {
         Serial.println("");
     #endif
 
+    // Test stuff: ramping
     if (level < LEVEL_MAX) {
         level += INC;
     }

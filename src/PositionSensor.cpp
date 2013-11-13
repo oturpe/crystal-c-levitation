@@ -14,15 +14,23 @@
 // In-project dependencies
 #include "PositionSensor.h"
 
-PositionSensor::PositionSensor(int sensorPin) : sensorPin(sensorPin) {
+PositionSensor::PositionSensor(int bottomPin, int topPin) :
+        bottomPin(bottomPin), topPin(topPin) {
 }
 
-int PositionSensor::read() {
-    int positionTotal = 0;
-    for(int i = 0; i < POSITION_SAMPLES; i++) {
-        positionTotal += analogRead(sensorPin);
+int* PositionSensor::read() {
+    positions[BOTTOM] = 0;
+    positions[TOP] = 0;
+
+    for (int i = 0; i < POSITION_SAMPLES; i++) {
+        positions[BOTTOM] += analogRead(bottomPin);
+        positions[TOP] += analogRead(topPin);
+
         delay(POSITION_SAMPLE_DELAY);
     }
 
-    return positionTotal / POSITION_SAMPLES;
+    positions[BOTTOM] /= POSITION_SAMPLES;
+    positions[TOP] /= POSITION_SAMPLES;
+
+    return positions;
 }

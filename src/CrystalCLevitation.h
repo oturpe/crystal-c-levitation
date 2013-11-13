@@ -16,7 +16,7 @@
 // Test code: ramping duty cycle
 #define LEVEL_MIN 0
 #define LEVEL_MAX 255
-#define WAIT 500
+#define WAIT 1000
 #define INC 5
 
 // Smoothing of position values
@@ -25,7 +25,8 @@
 
 // Pins to use
 #define RING_PIN 6
-#define SENSOR_PIN 4
+#define SENSOR_PIN_BOTTOM 4
+#define SENSOR_PIN_TOP 3
 
 // PWM control
 // Note that different PWM pins have different base frequency and accept only

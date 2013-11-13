@@ -16,7 +16,7 @@ int level = LEVEL_MIN;
 
 RingDriver ringDriver(RING_PIN);
 
-PositionSensor positionSensor(SENSOR_PIN);
+PositionSensor positionSensor(SENSOR_PIN_BOTTOM,SENSOR_PIN_TOP);
 
 // The setup() method runs once, when the sketch starts
 void setup() {
@@ -30,7 +30,7 @@ void setup() {
 
    // Header line for CSV debug output
    #ifdef __DEBUG
-       Serial.println("duty cycle;position;");
+       Serial.println("duty cycle;bottom position;top position;position diff;");
    #endif
 }
 
@@ -38,13 +38,16 @@ void setup() {
 void loop() {
     //delay(WAIT);
 
-    #define POSITION_ZERO 670
+    #define POSITION_ZERO 5
 
-    #define CONTROLLER_OFFSET 220
+    #define CONTROLLER_OFFSET 200
     // -1 -3  ... -4 -5
     #define CONTROLLER_COEFF -2.5
 
-    int position = positionSensor.read() - POSITION_ZERO;
+    int* positions = positionSensor.read();
+    int positionDiff = positions[BOTTOM] - positions[TOP];
+    int position = positionDiff - POSITION_ZERO;
+
     level = (CONTROLLER_COEFF * position) + CONTROLLER_OFFSET;
     if(level > 255) {
         level = 255;
@@ -56,7 +59,11 @@ void loop() {
     #ifdef __DEBUG
         Serial.print(level);
         Serial.print(";");
-        Serial.print(position);
+        Serial.print(positions[BOTTOM]);
+        Serial.print(";");
+        Serial.print(positions[TOP]);
+        Serial.print(";");
+        Serial.print(positionDiff);
         Serial.print(";");
 
         Serial.println("");

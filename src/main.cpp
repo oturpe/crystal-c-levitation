@@ -36,10 +36,21 @@ void setup() {
 
 // the loop() method runs over and over again, as long as the Arduino has power.
 void loop() {
-    delay(WAIT);
+    //delay(WAIT);
+
+    #define POSITION_ZERO 670
+
+    #define CONTROLLER_OFFSET 220
+    // -1 -3  ... -4 -5
+    #define CONTROLLER_COEFF -2.5
+
+    int position = positionSensor.read() - POSITION_ZERO;
+    level = (CONTROLLER_COEFF * position) + CONTROLLER_OFFSET;
+    if(level > 255) {
+        level = 255;
+    }
 
     ringDriver.drive(level);
-    int position = positionSensor.read();
 
     // Add line to CSV debug output
     #ifdef __DEBUG

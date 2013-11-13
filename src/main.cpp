@@ -30,7 +30,7 @@ void setup() {
 
    // Header line for CSV debug output
    #ifdef __DEBUG
-       Serial.println("duty cycle;bottom position;top position;position diff;");
+       Serial.println("duty cycle;bottom position;top position;position diff;deviation;");
    #endif
 }
 
@@ -38,11 +38,9 @@ void setup() {
 void loop() {
     //delay(WAIT);
 
-    #define POSITION_ZERO 5
-
-    #define CONTROLLER_OFFSET 200
-    // -1 -3  ... -4 -5
-    #define CONTROLLER_COEFF -2.5
+    #define POSITION_ZERO 110
+    #define CONTROLLER_OFFSET 100
+    #define CONTROLLER_COEFF -2
 
     int* positions = positionSensor.read();
     int positionDiff = positions[BOTTOM] - positions[TOP];
@@ -64,6 +62,8 @@ void loop() {
         Serial.print(positions[TOP]);
         Serial.print(";");
         Serial.print(positionDiff);
+        Serial.print(";");
+        Serial.print(position);
         Serial.print(";");
 
         Serial.println("");

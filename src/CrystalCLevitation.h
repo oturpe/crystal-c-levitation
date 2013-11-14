@@ -21,7 +21,6 @@
 
 // Smoothing of position values
 #define POSITION_SAMPLES 3
-#define POSITION_SAMPLE_DELAY 1
 
 // Pins to use
 #define RING_PIN 6

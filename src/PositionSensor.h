@@ -10,7 +10,8 @@
 
 enum POSITIONS {
     BOTTOM = 0,
-    TOP = 1
+    TOP,
+    SIZE
 };
 
 class PositionSensor {
@@ -48,8 +49,17 @@ private:
     /** Analog pin of top sensor. */
     int topPin;
 
-    /** Holder for read values. */
-    int positions[2];
+    /** Cyclic buffer for position values. Element at [x][y] is */
+    int positions[POSITION_SAMPLES][2];
+
+    /** Cursor to positions buffer.*/
+    int positionCursor;
+
+    /** Sum of all position values in the buffer. */
+    int smoothPositions[2];
+
+    /** Rolling average calculated from smooth positions. */
+    int rollingAverage[2];
 };
 
 #endif /* POSITIONSENSOR_H_ */

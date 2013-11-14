@@ -22,7 +22,7 @@ int loopCount = 0;
 // The setup() method runs once, when the sketch starts
 void setup() {
    #ifdef __DEBUG
-       Serial.begin(9600);
+       Serial.begin(DEBUG_PRINT_BAUDRATE);
    #endif
 
    setPwmFrequency(RING_PIN,PWM_SCALING);
@@ -53,16 +53,18 @@ void loop() {
 
     // Add line to CSV debug output
     #ifdef __DEBUG
-        //Serial.print(positions[BOTTOM]);
-        //Serial.print(";");
-        //Serial.print(positions[TOP]);
-        //Serial.print(";");
-        Serial.print(position);
-        Serial.print(";");
-        Serial.print(level);
-        Serial.print(";");
+        if (loopCount % DEBUG_PRINT_INTERVAL == 0) {
+            //Serial.print(positions[BOTTOM]);
+            //Serial.print(";");
+            //Serial.print(positions[TOP]);
+            //Serial.print(";");
+            Serial.print(position);
+            Serial.print(";");
+            Serial.print(level);
+            Serial.print(";");
 
-        Serial.println("");
+            Serial.println("");
+        }
     #endif
 }
 

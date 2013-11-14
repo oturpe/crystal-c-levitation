@@ -11,12 +11,13 @@
 // In-project dependencies
 #include "PositionSensor.h"
 #include "RingDriver.h"
-
-int level = LEVEL_MIN;
+#include "Controller.h"
 
 RingDriver ringDriver(RING_PIN);
-
 PositionSensor positionSensor(SENSOR_PIN_BOTTOM,SENSOR_PIN_TOP);
+Controller controller(CONTROLLER_PIN_OP,CONTROLLER_PIN_OFFSET,CONTROLLER_PIN_COEFF);
+
+int loopCount = 0;
 
 // The setup() method runs once, when the sketch starts
 void setup() {
@@ -30,49 +31,39 @@ void setup() {
 
    // Header line for CSV debug output
    #ifdef __DEBUG
-       Serial.println("duty cycle;bottom position;top position;position diff;deviation;");
+       Serial.println("reading diff;deviation;duty cycle;");
    #endif
 }
 
 // the loop() method runs over and over again, as long as the Arduino has power.
 void loop() {
-    //delay(WAIT);
+    loopCount += 1;
 
-    #define POSITION_ZERO 110
-    #define CONTROLLER_OFFSET 100
-    #define CONTROLLER_COEFF -2
-
-    int* positions = positionSensor.read();
-    int positionDiff = positions[BOTTOM] - positions[TOP];
-    int position = positionDiff - POSITION_ZERO;
-
-    level = (CONTROLLER_COEFF * position) + CONTROLLER_OFFSET;
-    if(level > 255) {
-        level = 255;
+    if(loopCount % CONTROLLER_PARAM_UPDATE_INTERVAL == 0) {
+        controller.readParameters();
     }
+
+    #define POSITION_ZERO 100
+
+    int* sensorReadings = positionSensor.read();
+    int position = sensorReadings[BOTTOM] - sensorReadings[TOP];
+    int level = controller.control(position);
 
     ringDriver.drive(level);
 
     // Add line to CSV debug output
     #ifdef __DEBUG
-        Serial.print(level);
-        Serial.print(";");
-        Serial.print(positions[BOTTOM]);
-        Serial.print(";");
-        Serial.print(positions[TOP]);
-        Serial.print(";");
-        Serial.print(positionDiff);
-        Serial.print(";");
+        //Serial.print(positions[BOTTOM]);
+        //Serial.print(";");
+        //Serial.print(positions[TOP]);
+        //Serial.print(";");
         Serial.print(position);
+        Serial.print(";");
+        Serial.print(level);
         Serial.print(";");
 
         Serial.println("");
     #endif
-
-    // Test stuff: ramping
-    if (level < LEVEL_MAX) {
-        level += INC;
-    }
 }
 
 int main(void) {

@@ -14,7 +14,7 @@
 #include "Controller.h"
 
 RingDriver ringDriver(RING_PIN);
-PositionSensor positionSensor(SENSOR_PIN_BOTTOM,SENSOR_PIN_TOP);
+PositionSensor positionSensor(SENSOR_PIN);
 Controller controller(CONTROLLER_PIN_OP,CONTROLLER_PIN_OFFSET,CONTROLLER_PIN_COEFF);
 
 int loopCount = 0;
@@ -45,8 +45,7 @@ void loop() {
 
     #define POSITION_ZERO 100
 
-    int* sensorReadings = positionSensor.read();
-    int position = sensorReadings[BOTTOM] - sensorReadings[TOP];
+    int position = positionSensor.read();
     int level = controller.control(position);
 
     ringDriver.drive(level);

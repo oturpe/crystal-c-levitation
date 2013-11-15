@@ -15,7 +15,7 @@
 // Using high debug serial speeds helps
 #define __DEBUG
 #define DEBUG_PRINT_BAUDRATE 115200
-#define DEBUG_PRINT_INTERVAL 41
+#define DEBUG_PRINT_INTERVAL 200
 
 // Test code: ramping duty cycle
 #define LEVEL_MIN 0
@@ -26,10 +26,11 @@
 // Smoothing of position values
 #define POSITION_SAMPLES 3
 
-// Pins to use
+// Digital pins to use
 #define RING_PIN 6
-#define SENSOR_PIN_BOTTOM 4
-#define SENSOR_PIN_TOP 3
+
+// Analog pins to use
+#define SENSOR_PIN 4
 #define CONTROLLER_PIN_OP 0
 #define CONTROLLER_PIN_OFFSET 1
 #define CONTROLLER_PIN_COEFF 2
@@ -46,9 +47,9 @@
 #define CONTROLLER_OFFSET_MIN 0.0
 #define CONTROLLER_OFFSET_MAX 400.0
 #define CONTROLLER_OP_MIN 0.0
-#define CONTROLLER_OP_MAX 120.0
+#define CONTROLLER_OP_MAX 500.0
 
 // How many loop cycles between one update of controller parameters.
-#define CONTROLLER_PARAM_UPDATE_INTERVAL 40
+#define CONTROLLER_PARAM_UPDATE_INTERVAL 197
 
 #endif /* CRYSTALCLEVITATION_H_ */

@@ -14,36 +14,18 @@
 // In-project dependencies
 #include "PositionSensor.h"
 
-PositionSensor::PositionSensor(int bottomPin, int topPin) :
-        bottomPin(bottomPin), topPin(topPin), positionCursor(0) {
-    smoothPositions[BOTTOM] = 0;
-    smoothPositions[TOP] = 0;
+PositionSensor::PositionSensor(int sensorPin) :
+        sensorPin(sensorPin), positionCursor(0), smoothPosition(0) {
 }
 
-int* PositionSensor::read() {
+int PositionSensor::read() {
     // Increment cursor
-    positionCursor += 1;
-    if(positionCursor == POSITION_SAMPLES) {
-        positionCursor = 0;
-    }
+    positionCursor = (positionCursor + 1) % POSITION_SAMPLES;
 
-    int* currentPositions = positions[positionCursor];
+    // Read new value and adjust smooth reading.
+    smoothPosition -= positions[positionCursor];
+    positions[positionCursor] = analogRead(sensorPin);
+    smoothPosition += positions[positionCursor];
 
-    // Remove oldest values from smooth reading
-    smoothPositions[BOTTOM] -= currentPositions[BOTTOM];
-    smoothPositions[TOP] -= currentPositions[TOP];
-
-    // Store new values
-    currentPositions[BOTTOM] = analogRead(bottomPin);
-    currentPositions[TOP] = analogRead(topPin);
-
-    // Add new values to rolling average
-    smoothPositions[BOTTOM] += currentPositions[BOTTOM];
-    smoothPositions[TOP] += currentPositions[TOP];
-
-    // Calculate rolling average
-    rollingAverage[BOTTOM] = smoothPositions[BOTTOM] / POSITION_SAMPLES;
-    rollingAverage[TOP] = smoothPositions[TOP] / POSITION_SAMPLES;
-
-    return rollingAverage;
+    return smoothPosition / POSITION_SAMPLES;
 }

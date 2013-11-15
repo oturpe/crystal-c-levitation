@@ -19,23 +19,17 @@ public:
     /**
      * Creates and initializes a new position sensor.
      *
-     * @param bottomPin analog input pin of bottom sensor
-     * @param topPin analog input pin of top sensor
+     * @param sensorPin analog input pin of sensor
      */
-    PositionSensor(int bottomPin, int topPin);
+    PositionSensor(int sensorPin);
 
     /**
-     * Read sensor and returns position values of both sensors. Values are
-     * returned as array of two integers in order (bottom,top). Values are
-     * between 0 and 1023 (i.e. 10-bit unsigned).
+     * Read sensor and returns position value. Values are between 0 and 1023
+     * (i.e. 10-bit unsigned).
      *
-     * Returned array is used internally by this class and should not be
-     * modified by caller nor expected to be retain its values after subsequent
-     * method calls.
-     *
-     * @return pointer to position values
+     * @return position
      */
-    int* read();
+    int read();
 
 private:
     /**
@@ -43,23 +37,20 @@ private:
      */
     PositionSensor();
 
-    /** Analog in pin of bottom sensor. */
-    int bottomPin;
+    /** Analog in pin of sensor. */
+    int sensorPin;
 
-    /** Analog pin of top sensor. */
-    int topPin;
-
-    /** Cyclic buffer for position values. Element at [x][y] is */
-    int positions[POSITION_SAMPLES][2];
+    /** Cyclic buffer for position values. */
+    int positions[POSITION_SAMPLES];
 
     /** Cursor to positions buffer.*/
     int positionCursor;
 
-    /** Sum of all position values in the buffer. */
-    int smoothPositions[2];
-
-    /** Rolling average calculated from smooth positions. */
-    int rollingAverage[2];
+    /**
+     * Sum of all position values in the buffer. Used to calculate rolling
+     * average.
+     * */
+    int smoothPosition;
 };
 
 #endif /* POSITIONSENSOR_H_ */

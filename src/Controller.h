@@ -17,11 +17,10 @@ public:
      * Controller responds to user input by reading analog values from
      * potentiometers and tuning its parameters by them.
      *
-     * @param operatingPointPin analog pin for operating point
-     * @param offsetPin analog pin for offset
+     * @param setpointPin analog pin for operating point
      * @param coeffPin analog pin for coefficient
      */
-    Controller(int operatingPointPin,int offsetPin,int coeffPin);
+    Controller(int setpointPin,int coeffPin);
 
     /**
      * Given new position value, returns duty cycle. Duty cycle is given as
@@ -42,20 +41,14 @@ private:
     /** Private default constructor to prevent usage. */
     Controller();
 
-    /** Analog pin for reading desired operating point. */
-    int operatingPointPin;
-
-    /** Analog pin for reading desired offset. */
-    int offsetPin;
+    /** Analog pin for reading desired setpoint. */
+    int setpointPin;
 
     /** Analog pin for reading desired coefficient. */
     int coeffPin;
 
-    /** Last read value of operating point. */
-    float operatingPoint;
-
-    /** Last read value of desired offset. */
-    float offset;
+    /** Last read value of setpoint. */
+    float setpoint;
 
     /** Last read value of coefficient. */
     float coeff;

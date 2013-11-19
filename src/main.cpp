@@ -15,7 +15,7 @@
 
 RingDriver ringDriver(RING_PIN);
 PositionSensor positionSensor(SENSOR_PIN);
-Controller controller(CONTROLLER_PIN_OP,CONTROLLER_PIN_OFFSET,CONTROLLER_PIN_COEFF);
+Controller controller(CONTROLLER_PIN_OP,CONTROLLER_PIN_COEFF);
 
 int loopCount = 0;
 
@@ -31,7 +31,7 @@ void setup() {
 
    // Header line for CSV debug output
    #ifdef __DEBUG
-       Serial.println("reading diff;deviation;duty cycle;");
+       Serial.println("position;duty cycle;");
    #endif
 }
 
@@ -53,10 +53,6 @@ void loop() {
     // Add line to CSV debug output
     #ifdef __DEBUG
         if (loopCount % DEBUG_PRINT_INTERVAL == 0) {
-            //Serial.print(positions[BOTTOM]);
-            //Serial.print(";");
-            //Serial.print(positions[TOP]);
-            //Serial.print(";");
             Serial.print(position);
             Serial.print(";");
             Serial.print(level);

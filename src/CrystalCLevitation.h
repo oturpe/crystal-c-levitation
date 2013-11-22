@@ -21,7 +21,7 @@
 #define POSITION_SAMPLES 3
 
 // Digital pins to use
-#define RING_PIN 6
+#define RING_PIN 3
 
 // Analog pins to use
 #define SENSOR_PIN 4

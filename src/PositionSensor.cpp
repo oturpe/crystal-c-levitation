@@ -14,18 +14,33 @@
 // In-project dependencies
 #include "PositionSensor.h"
 
-PositionSensor::PositionSensor(int sensorPin) :
-        sensorPin(sensorPin), positionCursor(0), smoothPosition(0) {
+PositionSensor::PositionSensor(int sensorPin,int resetPin) :
+        sensorPin(sensorPin), resetPin(resetPin), positionCursor(0), smoothPosition(0), resetValue(0) {
+    pinMode(resetPin,INPUT_PULLUP);
 }
 
 int PositionSensor::read() {
+    int position = analogRead(sensorPin) - resetValue;
+
+    if (position <= SENSOR_QUIESCENT_TOLERANCE) {
+        return -1;
+    }
+
     // Increment cursor
     positionCursor = (positionCursor + 1) % POSITION_SAMPLES;
 
     // Read new value and adjust smooth reading.
     smoothPosition -= positions[positionCursor];
-    positions[positionCursor] = analogRead(sensorPin);
+    positions[positionCursor] = position;
     smoothPosition += positions[positionCursor];
 
     return smoothPosition / POSITION_SAMPLES;
+}
+
+void PositionSensor::readParameters() {
+    if(digitalRead(resetPin) == HIGH) {
+        return;
+    }
+
+    resetValue = analogRead(sensorPin);
 }

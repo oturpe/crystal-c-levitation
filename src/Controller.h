@@ -24,7 +24,9 @@ public:
 
     /**
      * Given new position value, returns duty cycle. Duty cycle is given as
-     * value between 0 and 255 (i.e. 8-bit value).
+     * value between 0 and 255 (i.e. 8-bit value). Negative position value
+     * is interpreted as instruction to shut down the magnet, i.e. zero duty
+     * cycle is returned.
      *
      * @param position position reading.
      *

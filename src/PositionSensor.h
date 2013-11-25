@@ -20,16 +20,26 @@ public:
      * Creates and initializes a new position sensor.
      *
      * @param sensorPin analog input pin of sensor
+     * @param resetPin digital pin for reset input
      */
-    PositionSensor(int sensorPin);
+    PositionSensor(int sensorPin,int resetPin);
 
     /**
      * Read sensor and returns position value. Values are between 0 and 1023
-     * (i.e. 10-bit unsigned).
+     * (i.e. 10-bit unsigned). If levitating object is not detected, returns
+     * a negative value.
      *
      * @return position
      */
     int read();
+
+    /**
+     * Read parameters from user interface if read button is being pressed.
+     * Parameters to read are:
+     *
+     *     1. Quiescent value.
+     */
+    void readParameters();
 
 private:
     /**
@@ -39,6 +49,9 @@ private:
 
     /** Analog in pin of sensor. */
     int sensorPin;
+
+    /** Digital pin for reset. */
+    int resetPin;
 
     /** Cyclic buffer for position values. */
     int positions[POSITION_SAMPLES];
@@ -51,6 +64,9 @@ private:
      * average.
      * */
     int smoothPosition;
+
+    /** Reading without levitating object. */
+    int resetValue;
 };
 
 #endif /* POSITIONSENSOR_H_ */

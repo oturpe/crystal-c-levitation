@@ -16,8 +16,12 @@ Controller::Controller(int setpointPin, int coeffPin) :
 }
 
 int Controller::control(int position) {
+    if(position < 0) {
+        return 0;
+    }
+
     int positionDiff = position - setpoint;
-    return constrain((-coeff * positionDiff) + 255,0,255);
+    return constrain(-coeff * positionDiff,0,255);
 }
 
 void Controller::readParameters() {
@@ -35,9 +39,6 @@ void Controller::readParameters() {
     Serial.print("#");
     Serial.print("setpoint=");
     Serial.print(setpoint);
-    Serial.print(";");
-    Serial.print("offset=");
-    Serial.print(offset);
     Serial.print(";");
     Serial.print("coeff=");
     Serial.print(coeff);

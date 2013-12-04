@@ -36,7 +36,7 @@
 //
 // Note that different PWM pins have different base frequency and accept only
 // certain scaling values. See file lib/ArduinoPwm.cpp for details
-#define PWM_SCALING 32
+#define PWM_SCALING 128
 
 #define SENSOR_QUIESCENT_TOLERANCE 10
 

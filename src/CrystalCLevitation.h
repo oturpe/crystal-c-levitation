@@ -21,7 +21,7 @@
 
 
 // Smoothing of position values
-#define POSITION_SAMPLES 3
+#define POSITION_SAMPLES 5
 
 // Digital pins to use
 #define RING_PIN 3
@@ -41,11 +41,11 @@
 #define SENSOR_QUIESCENT_TOLERANCE 10
 
 // User input for controller parameters
-#define CONTROLLER_COEFF_MIN 0.0
-#define CONTROLLER_COEFF_MAX 60.0
+#define CONTROLLER_COEFF_MIN 0.5
+#define CONTROLLER_COEFF_MAX 30.0
 #define CONTROLLER_OFFSET_MIN 0.0
 #define CONTROLLER_OFFSET_MAX 400.0
-#define CONTROLLER_OP_MIN 0.0
+#define CONTROLLER_OP_MIN 150.0
 #define CONTROLLER_OP_MAX 300.0
 
 #endif /* CRYSTALCLEVITATION_H_ */

@@ -8,21 +8,36 @@
 #ifndef POSITIONSENSOR_H_
 #define POSITIONSENSOR_H_
 
+#include "Parameterized.h"
+
 enum POSITIONS {
     BOTTOM = 0,
     TOP,
     SIZE
 };
 
-class PositionSensor {
+/**
+ * Class to interact with Hall effect sensor connected to a single analog in
+ * pin of the microcontroller. Performs smoothing of readings and supports
+ * resetting to quiescent state.
+ *
+ * This class is Parameterized, containing only one parameter: the quiescent
+ * state reading.
+ */
+class PositionSensor : public Parameterized {
+
 public:
     /**
      * Creates and initializes a new position sensor.
      *
      * @param sensorPin analog input pin of sensor
-     * @param resetPin digital pin for reset input
      */
-    PositionSensor(int sensorPin,int resetPin);
+    PositionSensor(int sensorPin);
+
+    /**
+     * @copydoc Parameterized::readParameters()
+     */
+    virtual void readParameters();
 
     /**
      * Read sensor and returns position value. Values are between 0 and 1023
@@ -34,39 +49,42 @@ public:
     int read();
 
     /**
-     * Read parameters from user interface if read button is being pressed.
-     * Parameters to read are:
+     * @copydoc Parameterized::updateParameters()
      *
-     *     1. Quiescent value.
+     * The parameter to update is the quiescent state reading. Thus, this method
+     * should be called only when levitating object is not present.
      */
-    void readParameters();
+    virtual void updateParameters();
+
+    /**
+     * @copydoc Parameterized::writeParameters()
+     */
+    virtual void writeParameters();
 
 private:
+
     /**
      * Private default constructor to prevent usage.
      */
     PositionSensor();
 
-    /** Analog in pin of sensor. */
-    int sensorPin;
-
-    /** Digital pin for reset. */
-    int resetPin;
+    /** Cursor to positions buffer.*/
+    int positionCursor;
 
     /** Cyclic buffer for position values. */
     int positions[POSITION_SAMPLES];
 
-    /** Cursor to positions buffer.*/
-    int positionCursor;
+    /** Reading without levitating object. */
+    int resetValue;
+
+    /** Analog in pin of sensor. */
+    int sensorPin;
 
     /**
      * Sum of all position values in the buffer. Used to calculate rolling
      * average.
      * */
     int smoothPosition;
-
-    /** Reading without levitating object. */
-    int resetValue;
 };
 
 #endif /* POSITIONSENSOR_H_ */

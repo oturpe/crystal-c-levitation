@@ -25,7 +25,7 @@
 
 // Digital pins to use
 #define RING_PIN 3
-#define SENSOR_RESET_PIN 4
+#define RECORDING_BUTTON_PIN 4
 
 // Analog pins to use
 #define SENSOR_PIN 4

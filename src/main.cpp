@@ -12,10 +12,12 @@
 #include "PositionSensor.h"
 #include "RingDriver.h"
 #include "Controller.h"
+#include "RecordingButtonListener.h"
 
 RingDriver ringDriver(RING_PIN);
-PositionSensor positionSensor(SENSOR_PIN,SENSOR_RESET_PIN);
+PositionSensor positionSensor(SENSOR_PIN);
 Controller controller(CONTROLLER_PIN_OP,CONTROLLER_PIN_COEFF);
+RecordingButtonListener recordingButtonListener(RECORDING_BUTTON_PIN);
 
 int loopCount = 0;
 
@@ -29,10 +31,43 @@ void setup() {
 
    ringDriver.init();
 
+   int offset = 0;
+   positionSensor.allocateEeprom(offset);
+   controller.allocateEeprom(offset);
+
+   positionSensor.readParameters();
+   controller.readParameters();
+
    // Header line for CSV debug output
    #ifdef __DEBUG
        Serial.println("position;duty cycle;");
    #endif
+}
+
+/**
+ *  Performs any actions related to recording parameters according to recording
+ *  state as read from recording button listener.
+ */
+void record() {
+    switch (recordingButtonListener.readState()) {
+    case RecordingButtonListener::NOT_RECORDING:
+        // Not recording, nothing to do.
+        break;
+    case RecordingButtonListener::START_RECORDING:
+        positionSensor.updateParameters();
+        break;
+    case RecordingButtonListener::RECORDING:
+        controller.updateParameters();
+        break;
+    case RecordingButtonListener::END_RECORDING:
+        positionSensor.writeParameters();
+        controller.writeParameters();
+        break;
+    default:
+        // Getting here is an error, as all the different states should be
+        // listed above.
+        break;
+    }
 }
 
 // the loop() method runs over and over again, as long as the Arduino has power.
@@ -40,8 +75,7 @@ void loop() {
     loopCount += 1;
 
     if(loopCount % CONTROLLER_PARAM_UPDATE_INTERVAL == 0) {
-        controller.readParameters();
-        positionSensor.readParameters();
+        record();
     }
 
     int position = positionSensor.read();

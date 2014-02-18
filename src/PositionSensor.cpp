@@ -8,15 +8,18 @@
 // Precompiled library dependencies
 #include "Arduino.h"
 
+// Source library dependencies
+#include "lib/EEPROM/EEPROMAnything.h"
+
 // Project configuration
 #include "CrystalCLevitation.h"
 
 // In-project dependencies
 #include "PositionSensor.h"
 
-PositionSensor::PositionSensor(int sensorPin,int resetPin) :
-        sensorPin(sensorPin), resetPin(resetPin), positionCursor(0), smoothPosition(0), resetValue(0) {
-    pinMode(resetPin,INPUT_PULLUP);
+PositionSensor::PositionSensor(int sensorPin) :
+        Parameterized(sizeof(resetValue)), positionCursor(
+                0), resetValue(0), sensorPin(sensorPin), smoothPosition(0) {
 }
 
 int PositionSensor::read() {
@@ -38,9 +41,13 @@ int PositionSensor::read() {
 }
 
 void PositionSensor::readParameters() {
-    if(digitalRead(resetPin) == HIGH) {
-        return;
-    }
+    EEPROM_readAnything(getOffset(),resetValue);
+}
 
+void PositionSensor::updateParameters() {
     resetValue = analogRead(sensorPin);
+}
+
+void PositionSensor::writeParameters() {
+    EEPROM_writeAnything(getOffset(),resetValue);
 }
